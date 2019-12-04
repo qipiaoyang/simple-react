@@ -1,0 +1,16 @@
+{
+  "name": "panreact",
+  "version": "1.0.0",
+  "main": "/dist/index.js",
+  "scripts": {
+    "dev": "rollup -c --watch",
+    "build": "rollup -c"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "rollup": "^1.27.8",
+    "rollup-plugin-typescript": "^1.0.1",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.2"
+  }
+}
