@@ -120,11 +120,11 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"../dist/panreact.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.preact = {}));
-})(this, function (exports) {
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.preact = factory());
+})(this, function () {
   'use strict';
 
   function h(tag, attrs) {
@@ -143,91 +143,57 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   function render(vnode, container) {
-    // 当vnode为字符串时，渲染结果是一段文本
-    if (typeof vnode === 'string') {
+    console.log(vnode, 'vnode====='); // 如果是字符串
+
+    if (typeof vnode === "string") {
       var textNode = document.createTextNode(vnode);
       return container.appendChild(textNode);
     }
 
     var dom = document.createElement(vnode.tag);
 
-    if (vnode.attrs) {
-      Object.keys(vnode.attrs).forEach(function (key) {
-        var value = vnode.attrs[key];
-        setAttribute(dom, key, value); // 设置属性
-      });
-    }
-
     if (vnode.children) {
       vnode.children.forEach(function (child) {
         return render(child, dom);
-      }); // 递归渲染子节点
+      });
     }
 
-    return container.appendChild(dom); // 将渲染结果挂载到真正的DOM上
+    if (vnode.attrs) {
+      Object.keys(vnode.attrs).map(function (k, v) {
+        setAttribute(dom, k, v);
+      });
+    }
+
+    return container.appendChild(dom);
   }
 
-  function setAttribute(dom, name, value) {
-    // 如果属性名是className，则改回class
-    if (name === 'className') name = 'class'; // 如果属性名是onXXX，则是一个事件监听方法
-
-    if (/on\w+/.test(name)) {
-      name = name.toLowerCase();
-      dom[name] = value || ''; // 如果属性名是style，则更新style对象
-    } else if (name === 'style') {
-      if (!value || typeof value === 'string') {
-        dom.style.cssText = value || '';
-      } else if (value && _typeof(value) === 'object') {
-        for (var name_1 in value) {
-          // 可以通过style={ width: 20 }这种形式来设置样式，可以省略掉单位px
-          dom.style[name_1] = typeof value[name_1] === 'number' ? value[name_1] + 'px' : value[name_1];
-        }
-      } // 普通属性则直接更新属性
-
+  function setAttribute(dom, key, value) {
+    if (key === "style") {
+      dom.cssText = value || "";
     } else {
-      if (name !== 'class' && name in dom) {
-        dom[name] = value || '';
-      }
-
-      if (value) {
-        dom.setAttribute(name, value);
-      } else {
-        dom.removeAttribute(name);
-      }
+      console.log(dom.__proto__, "dom========");
+      dom.setAttribute(key, value);
     }
   }
 
-  exports.h = h;
-  exports.render = render;
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
+  var index = {
+    h: h,
+    render: render
+  };
+  return index;
 });
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _panreact = require("../dist/panreact");
 
-// const App = (
-//     <div>
-//         hello<span onClick="click" style={{color: "red"}} data="data-test">world!</span>
-//     </div>
-// );
 function App(props) {
-  var click = function click(e) {
-    console.log(123);
-  };
-
-  return (0, _panreact.h)("div", null, "hello", (0, _panreact.h)("span", {
-    onClick: "click",
-    style: {
-      color: "red"
-    },
-    data: "data-test"
-  }, "world!"));
+  return (0, _panreact.h)("div", null, (0, _panreact.h)("video", {
+    src: "aaaaa"
+  }));
 }
 
-(0, _panreact.render)((0, _panreact.h)(App, null), document.getElementById("app")); // render(App(), document.getElementById("app"));
+(0, _panreact.render)((0, _panreact.h)(App, null), document.getElementById("app"));
 },{"../dist/panreact":"../dist/panreact.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -256,7 +222,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54953" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "12191" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
